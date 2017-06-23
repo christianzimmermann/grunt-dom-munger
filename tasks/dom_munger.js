@@ -15,6 +15,9 @@ var toArray = function(value) {
   return (Array.isArray(value)) ? value : [value];
 }
 
+var i18nLib = {
+}
+
 module.exports = function(grunt) {
 
   var processFile = function(f,dest,options,$,window){
@@ -30,14 +33,10 @@ module.exports = function(grunt) {
           grunt.log.error('Read config missing selector, attribute, and/or writeto options');
         } else {
 
-          var vals = $(option.selector).map(function(i,elem){
-            return $(elem).attr(option.attribute);
+          var vals = $(option.selector).each(function (elem) {
+			i18nLib[$(elem).attr(option.attribute)] = $(elem).html();
           });
-
-          vals = vals.filter(function(item){
-            return item !== undefined;
-          });
-
+    
           if (option.isPath){
             var relativeTo = path.dirname(grunt.file.expand(f));
             vals = vals.map(function(val){
@@ -45,8 +44,7 @@ module.exports = function(grunt) {
             });
           }
 
-          grunt.config(['dom_munger','data',option.writeto],vals);
-          grunt.log.writeln('Wrote ' + (option.selector + '.' + option.attribute).cyan + ' to ' + ('dom_munger.data.'+option.writeto).cyan);
+		grunt.file.write("i18n/counselling.json", i18nLib)
         }
 
       });
