@@ -44,7 +44,7 @@ module.exports = function(grunt) {
             });
           }
 
-		grunt.file.write("i18n/counselling.json", i18nLib)
+		grunt.file.write("i18n/counselling.json", JSON.stringify(i18nLib))
         }
 
       });
