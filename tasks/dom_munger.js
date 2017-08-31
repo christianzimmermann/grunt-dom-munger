@@ -34,7 +34,8 @@ module.exports = function (grunt) {
 
                     $(option.selector).map(function (i, elem) {
                         if ($(elem).attr(option.attribute) !== undefined) {
-                            i18nLib[$(elem).attr(option.attribute)] = $(elem).html();
+							var val = $(elem).html().replace(/ +(?= )/g,'').replace(/\n|\r/g, "");
+                            i18nLib[$(elem).attr(option.attribute)] = val;
                         }
                     });
                     grunt.file.write("i18n/counselling.json", JSON.stringify(i18nLib))
